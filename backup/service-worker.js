@@ -2,8 +2,21 @@ self.addEventListener('push', function(event) {
   // Since there is no payload data with the first version  
   // of push messages, we'll grab some data from  
   // an API and use it to populate a notification  
+
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", "Bearer 2.ndKkx4kQyfC7wMxUXC6UJDTZhNreMlzvc9wR1keJ.1448958474");
+  myHeaders.append("contentType", "text/plain");
+  myHeaders.append("Access-Control-Allow-Origin", "http://localhost:8000")
+  myHeaders.append("Access-Control-Allow-Credentials", "True")
+  var myInit = { method: 'GET',
+               headers: myHeaders,
+               mode: 'cors',
+               cache: 'default' };
+
+  var myRequest = new Request('http://localhost:8080/v1.1/monitor/event/c6mYoXIyQBM:APA91bFvNZ_e2nC9Z_HCq_aJcO6GE9by95flk0WfUInZfqiA_E8eembbfnsSD7o2lwB6nTGEqQvji05FWz85vw6_fZE570hQrV9thCVIBJMXFpYyl_y5SRns-dnXP8bki46bKWOx0FJD',myInit);
+
   event.waitUntil(  
-    fetch("http://localhost:8080/v1.1/monitor/event/eB0IKOxeJyA:APA91bGG-IX4ybHVtTegodsAQIQUEWXXFDEYnWrHYwUrUJ4hm9o0H-Jb0SRexROKVcYrD2rOk7dtZ6vDgobcx80CN9eAGJdyw-Gm3S402s-0qve_x6uLvn4VxXDXPwpflSdcEO5HLDUW").then(function(response) {  
+    fetch(myRequest, myInit).then(function(response) { 
       if (response.status !== 200) {  
         // Either show a message to the user explaining the error  
         // or enter a generic message and handle the
@@ -21,7 +34,7 @@ self.addEventListener('push', function(event) {
 
         var title = "Qnap message";  
         var message = data.result.message;  
-        var icon = data.notification.icon;  
+        var icon = "";  
         var tag = 'simple-push-demo-notification-tag';
 
         return self.registration.showNotification(title, {  
